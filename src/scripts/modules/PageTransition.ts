@@ -58,7 +58,9 @@ export class PageTransitionManager {
           // debug: true,
         }),
         new SwupPreloadPlugin({ preloadVisibleLinks: true }),
-        new SwupHeadPlugin(),
+        new SwupHeadPlugin({
+          persistAssets: true, // 追加されたcssなどを保持する
+        }),
         new SwupA11yPlugin(),
         new ParallelPlugin(),
         new SwupScrollPlugin({
