@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import { qrcode } from 'vite-plugin-qrcode';
 
+import alpinejs from "@astrojs/alpinejs";
 // https://astro.build/config
 export default defineConfig({
   site: "https://test.com/",
@@ -14,4 +15,5 @@ export default defineConfig({
     },
     plugins: [qrcode()]
   },
+  integrations: [alpinejs()],
 });
