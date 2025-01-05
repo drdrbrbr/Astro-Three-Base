@@ -15,7 +15,7 @@ export class Tweakable {
   
   public setupProp(key:string,bindingParams?:any) {
     const properties = this.getTweakableProperties();
-    console.log(properties)
+    // console.log(properties)
     const binding = this.folder.addBinding(this, key as keyof this, bindingParams);
     binding.on('change', (ev) => {
       this.change()
@@ -30,7 +30,7 @@ export class Tweakable {
     const properties: TweakableProperty = {};
     
     for (const key in this) {
-      console.log(key)
+      // console.log(key)
       if (this.hasOwnProperty(key)) {
         properties[key] = (this as any)[key];
       }
