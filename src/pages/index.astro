@@ -2,8 +2,41 @@
 import Page from "@/layouts/Page.astro";
 ---
 
-<Page title="TOP" pageClass="index">
-  <div class="wrap">
+<Page title="TOP | トップページ" pageClass="top">
+  <div class="wrap" x-data="{ isOpen: false }">
     <canvas id="canvas"></canvas>
+    <h1>TOP</h1>
+    <p>ここはトップページになります。</p>
+
+    <!-- モーダル -->
+    <button @click="isOpen = true">Open Modal</button>
+    <div class="modal" x-show="isOpen" x-cloak x-transition.opacity>
+      <div class="modal-inner" @click.away="isOpen = false">
+        <p>ここはモーダルになります。</p>
+        <button @click="isOpen = false">Close</button>
+      </div>
+    </div>
   </div>
 </Page>
+
+<style>
+  [x-cloak] {
+    display: none;
+  }
+
+  .modal {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: grid;
+    place-items: center;
+  }
+  .modal-inner {
+    width: 50vw;
+    height: 50vh;
+    background-color: #fff;
+  }
+</style>

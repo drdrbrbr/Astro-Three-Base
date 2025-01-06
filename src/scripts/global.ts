@@ -3,6 +3,8 @@ import * as $ from './modules/Util';
 import type { EventManager } from './modules/Util';
 import * as THREE from 'three';
 import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
+import { PageTransitionManager } from './modules/PageTransition';
+
 class MyObject extends Tweakable {
   public position: { x: number; y: number };
   public size: number;
@@ -20,12 +22,13 @@ class MyObject extends Tweakable {
     });
     this.setupProp('size');
     this.setupProp('color');
-    this.addHtml()
+    this.addHtml();
   }
 
   private addHtml() {
     this.div = document.createElement('div');
-    this.updateHtml()
+    this.div.classList.add('tweakable-div');
+    this.updateHtml();
     document.body.appendChild(this.div);
   }
   private updateHtml() {
@@ -37,8 +40,8 @@ class MyObject extends Tweakable {
     this.div.style.left = `${this.position.x}px`;
   }
   change() {
-    super.change()
-    this.updateHtml()
+    super.change();
+    this.updateHtml();
   }
 }
 
@@ -113,11 +116,27 @@ class MyScene {
 class App {
   public myScene: MyScene;
   public eventManager: EventManager;
-  constructor() {
+  public myObject: MyObject;  
+  public pageTransitionManager: PageTransitionManager;
+  private static instance: App | null = null;
+
+  private constructor() {
     this.myScene = new MyScene();
+    console.log("🚀 : App : constructor=====");
+    
+    this.myObject = new MyObject();
     this.eventManager = new $.EventManager();
+    this.pageTransitionManager = new PageTransitionManager();
     this.init();
   }
+
+  public static getInstance(): App {
+    if (!App.instance) {
+      App.instance = new App();
+    }
+    return App.instance;
+  }
+
   init() {
     this.eventManager.add(document, 'DOMContentLoaded', this.loaded.bind(this));
     this.eventManager.add(window, 'resize', this.resize.bind(this));
@@ -131,6 +150,7 @@ class App {
     this.resize();
     this.animate();
   }
+
   resize() {
     window.winW = window.innerWidth;
     window.winH = window.innerHeight;
@@ -146,4 +166,8 @@ declare global {
   }
 }
 
-window.app = new App();
+if (!window.app) {
+  window.app = App.getInstance();
+}
+
+
